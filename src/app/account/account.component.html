@@ -1,0 +1,38 @@
+<br>
+<form #f="ngForm" novalidate>
+  <div class="container">
+    <div class="row card bg-light">
+      <div class="h1"></div>
+
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="InputFirstname">Firstname</label>
+          <input type="text" id="InputFirstname" class="form-control" ngModel name="firstName"
+            [(ngModel)]="user.name">
+        </div>
+      </div>
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="InputLastname">Lastname</label>
+          <input type="text" id="InputLastname" class="form-control" ngModel name="lastName"
+            [(ngModel)]="user.lastname">
+        </div>
+      </div>
+        <div class="col-sm-12">
+          <div class="form-group">
+            <label for="InputEmail">Email address</label>
+            <input type="email" name="email"  [(ngModel)]="user.email" id="InputEmail" class="form-control"
+              ngModel name ="Email">
+          </div>
+          <button type="button" class="btn btn-success" style="margin: 5px" (click)="update()" aria-label="Update"
+          id="updateButton">
+          <span class="fa fa-check" aria-hidden="true"></span> Update
+        </button>
+        <!--        <button class="alert-danger" mat-raised-button (click)="deleteAccount()">Delete Account</button>-->
+        <button class="btn btn-danger" style="margin: 5px" (click)="deleteAccount()" id="deleteBtn">
+          <span aria-hidden="true" class="fa fa-close"></span> Delete account
+        </button>
+        </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,10 @@
+
+<div class="container">
+  <div class="row">
+<div class="col-sm-offset-0 col-sm-4 card bg-light" *ngFor="let serie of series.results;" routerLink="/search-details/{{serie.media_type}}/{{serie.id}}"  >
+      <div class=" img text-center"><img src="http://image.tmdb.org/t/p/w185/{{serie.poster_path}}"
+          class="img-fluid img-thumbnail mx-auto d-block" alt="Responsive image"></div>
+      <h3 class="text-center">{{serie.title}}{{serie.name}}</h3>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+
+<div class="card bg-light" style="margin:10px ; padding:5px">
+  <div class="img text-center"><img src="http://image.tmdb.org/t/p/w400/{{details.poster_path}}"
+      class="img-fluid img-thumbnail mx-auto d-block" alt="Responsive image"></div>
+  <h3 class="">{{details.name}}</h3>
+  <div class="p">{{details.overview}}</div>
+  <br>
+
+  <p *ngIf="bool">
+    <button type="btn btn-info" class="btn btn-outline-primary" (click)="isCollapsed = !isCollapsed"
+            [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+      Seasons
+    </button>
+  </p>
+  <div id="collapseExample" *ngFor="let season of details.seasons;" [ngbCollapse]="!isCollapsed">
+    <div class="card">
+      <div class="card-body">
+        <h6 class="">{{season.name}}</h6>
+        <div class="p">{{season.overview}}</div>
+        <div class="p">Air date: {{season.air_date}}</div>
+        <div class="p">Episode count: {{season.episode_count}}</div>
+      </div>
+    </div>
+  </div>
+
+  <br>
+  <button class="btn btn-success" (click)="AddToWatchList()" style="width: 10vw">Add to watch list</button>
+</div>
+

@@ -1,0 +1,32 @@
+<div class="container">
+    <div class="row" *ngFor="let show of Shows">
+        <div class="col-sm-offset-0 col-sm-6 card bg-light">
+            <div class="img  text-center"><img src="http://image.tmdb.org/t/p/w300/{{show.poster_path}}"
+                    class="img-fluid img-thumbnail mx-auto d-block" alt="Responsive image"></div>
+            <h3 class="">{{show.title}}</h3>
+            <div class="p">{{show.body}}</div>
+            <h4 class="">Current EP:</h4>
+        </div>
+
+
+
+
+
+
+
+
+        <div class="btn-group-vertical" role="group" aria-label="Basic example" style="height: 10%">
+            <a type="ngSubmit" class="btn btn-success btn-lg">
+                <span class="glyphicon glyphicon glyphicon-plus-sign"></span>Update &#43;
+            </a>
+            <a type="ngSubmit tex" class="btn btn-info btn-lg" (click)="moreInfo(show)">
+                <span class="glyphicon glyphicon glyphicon-plus-sign"></span>More info !
+            </a>
+            <a type="ngSubmit tex" class="btn btn-danger btn-lg" (click)="remove(show)">
+                <span class="glyphicon glyphicon glyphicon-plus-sign"></span>Remove -
+            </a>
+            
+        </div>
+
+    </div>
+</div>
