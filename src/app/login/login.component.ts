@@ -7,7 +7,7 @@ import PNotify from 'pnotify/dist/es/PNotify';
 import PNotifyButtons from 'pnotify/dist/es/PNotifyButtons';
 PNotify.defaults.styling = 'bootstrap3'; // Bootstrap version 3
 PNotify.defaults.icons = 'bootstrap3'; // glyphicons
-
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login',
@@ -16,8 +16,11 @@ PNotify.defaults.icons = 'bootstrap3'; // glyphicons
 })
 export class LoginComponent implements OnInit {
 
+
+  cookieValue = 'UNKNOWN';
+  
   private user: User;
-  constructor(private loginService: LoginService, private router: Router) { }
+  constructor(private loginService: LoginService, private router: Router,private cookieService: CookieService) { }
 
   ngOnInit() {
     PNotifyButtons; // Initiate the module. Important!
@@ -33,7 +36,11 @@ export class LoginComponent implements OnInit {
         console.log("opgehaalde data", this.user);
         console.log(this.user.name);
         console.log(this.user.id);
+        this.cookieService.set( 'Username', this.user.name );
+        this.cookieService.set('UserId',this.user.id.toString());
+        this.cookieService.set( 'LoggedIn', 'true' );
         this.loginService.broadcastLoginChange(this.user.name,this.user.id);
+        this.loginService.broadcastLoginChangeStatus(true);
         this.router.navigate(['serie/'+this.user.id]);
         PNotify.closeAll();
       } catch (error) {
@@ -58,9 +65,15 @@ export class LoginComponent implements OnInit {
 
   logout() {
     console.log("logout() login component");
+    this.cookieService.deleteAll();
     this.user = new User();
+    this.cookieService.set( 'LoggedIn', 'false' );
     this.loginService.broadcastLoginChange(this.user.name,this.user.id);
+    console.log("test",this.user.name);
+    this.loginService.broadcastLoginChangeStatus(false);
+    
     this.router.navigate(['login'])
     PNotify.closeAll();
+
   }
 }

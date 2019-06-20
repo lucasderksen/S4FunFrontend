@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as sha512 from 'js-sha512';
 import { Subject } from 'rxjs';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
     providedIn: 'root'
@@ -65,14 +66,18 @@ export class LoginService {
 
     public name: Subject<string> = new Subject();
     public id: Subject<number> = new Subject();
-
+    public loggedIn: Subject<boolean> = new Subject();
 
     broadcastLoginChange(text: string, id: number) {
-        console.log("name", text);
-        console.log("ID", id);
-        this.name.next(text);
-        this.id.next(id);
-        this.Currentid = id;
-        this.CurrentName = text;
+            console.log("name", text);
+            console.log("ID", id);
+            this.name.next(text);
+            this.id.next(id);
+            this.Currentid = id;
+            this.CurrentName = text;        
+    }
+
+    broadcastLoginChangeStatus(loggedIn: boolean) {       
+            this.loggedIn.next(loggedIn);        
     }
 }

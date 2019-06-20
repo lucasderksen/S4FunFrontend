@@ -19,6 +19,8 @@ export class SearchDetailsComponent implements OnInit {
   details: any
   type: any
   bool: boolean
+  addedToWatchList: boolean
+  mediaType : any
   constructor( private activatedRoute: ActivatedRoute, private searchService : SearchService, private showService: ShowService, public loginService: LoginService) { }
 
 
@@ -27,6 +29,9 @@ export class SearchDetailsComponent implements OnInit {
 
 
     const params = this.activatedRoute.snapshot.params;
+    this.addedToWatchList = !params.bool;
+
+
     console.log("paramsId", params.id);
     console.log("paramsmediatype", params.media);
     if(params.media == "tv"){
@@ -37,6 +42,7 @@ export class SearchDetailsComponent implements OnInit {
         console.log("details", this.details.name);
         this.type = "show";
         this.bool = true;
+        this.mediaType = params.media;
         }));
 
 
@@ -48,6 +54,7 @@ export class SearchDetailsComponent implements OnInit {
         console.log("details.titel");
         this.type = params.media;
         this.bool = false;
+        this.mediaType = params.media;
 
       }));
     }
@@ -55,13 +62,21 @@ export class SearchDetailsComponent implements OnInit {
 
   AddToWatchList(){
     this.details
-    console.log("add",this.details);
-    this.showService.postShow(this.details,this.loginService.Currentid).subscribe((val) => {
+    this.showService.postShow(this.details,this.loginService.Currentid,this.mediaType).subscribe((val) => {
       console.log(val);
-    });   
-    PNotify.success({
+    }); 
+    var notice = PNotify.success({
       title: 'Success!',
-      text: 'You have added a '+this.type+"!, go to your overzicht to see it."
+      text: 'You have added a '+this.type+"!, go to your overzicht to see it.",
+      modules: {
+        Buttons: {
+          closer: false,
+          sticker: false
+        }
+      }
+    });
+    notice.on('click', function() {
+      notice.close();
     });
     
   }

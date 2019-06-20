@@ -7,6 +7,7 @@ import { SearchDetailsComponent } from './search-details/search-details.componen
 import { RegisterComponent } from './register/register.component';
 import { AccountComponent } from './account/account.component';
 
+
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -14,7 +15,8 @@ const routes: Routes = [
   {path: 'search/:title', component: SearchComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'account', component: AccountComponent},
-  {path: 'search-details/:media/:id', component: SearchDetailsComponent}
+  {path: 'search-details/:media/:id', component: SearchDetailsComponent},
+  {path: 'search-details/:media/:id/:bool', component: SearchDetailsComponent}
 
 ];
 

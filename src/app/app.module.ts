@@ -17,7 +17,7 @@ import { SearchDetailsComponent } from './search-details/search-details.componen
 import { LoginService } from './services/login-service';
 import { RegisterComponent } from './register/register.component';
 import { ShowService } from './services/show-service';
-
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -39,7 +39,7 @@ import { ShowService } from './services/show-service';
     FormsModule,
     HttpClientModule
   ],
-  providers: [LoginService,ShowService],
+  providers: [LoginService,ShowService,CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

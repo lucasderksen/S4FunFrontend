@@ -33,19 +33,21 @@ export class ShowService {
         return this.http.get(`${this.API_URL}/ByUserId/`+id);
     }
 
-    postShow(show: any,id:any){
+    postShow(show: any,id:any,mediaType : any){
         
         console.log("SERVICE POST SHOW",show);
         console.log("body",show.overview);
         console.log("id",id);
         console.log("title",show.title);
+        console.log("mediaType",mediaType);
         let Json = JSON.stringify({
 
             show: {
                 body: show.overview, 
                 title: show.title,
                 poster_path: show.poster_path,
-                mediaType: show.mediaType
+                mediaType: mediaType,
+                tmdbId: show.id
                 
             },
             tempId: id
@@ -69,6 +71,29 @@ export class ShowService {
             tempId: id
         });
         return this.http.post(`http://localhost:8086/serie/removeShow`, Json, {headers: this.headers}).subscribe();
+    }
+
+    postComment(show: any,title:any,body:any){
+        
+        console.log("SERVICE POST Comment",show);
+        console.log("body",show.overview);
+
+        let Json = JSON.stringify({
+
+            show: {
+                id: show.id,
+                body: show.overview, 
+                title: show.title,
+                poster_path: show.poster_path,
+                tmdbId: show.tmdbId,
+                comments: [{title:title ,body:body}]
+
+                
+                
+            },
+        });
+        console.log(Json);
+        return this.http.post(`${this.API_URL}/addComment`, Json, {headers: this.headers});
     }
 
 }

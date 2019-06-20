@@ -18,11 +18,16 @@ export class SerieComponent implements OnInit {
   public Shows: any;
   show: any;
   id: any;
+  private commentTitle: any;
+  private commentBody: any;
 
-  constructor(private showService: ShowService, private loginService: LoginService, private activatedRoute: ActivatedRoute,private router: Router) { }
+  constructor(private showService: ShowService, private loginService: LoginService, private activatedRoute: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     PNotifyButtons; // Initiate the module. Important!
+
+    this.commentTitle = "";
+    this.commentBody = "";
 
     console.log("ngOnInit");
     const params = this.activatedRoute.snapshot.params;
@@ -32,35 +37,73 @@ export class SerieComponent implements OnInit {
         this.Shows = val;
         console.log("shows", this.Shows);
         this.Shows.forEach(element => {
-          console.log("show" , element)
+          console.log("show", element)
         });
+
+        if (!Array.isArray(this.Shows) || !this.Shows.length) {
+          var notice = PNotify.info({
+            title: 'You have no shows added!',
+            text: 'Search for a show, in the search bar top right.',
+            modules: {
+              Buttons: {
+                closer: false,
+                sticker: false
+              }
+            }
+          });
+          notice.on('click', function () {
+            notice.close();
+          });
+        }
       });
 
-      this.id=params.id;
+      this.id = params.id;
 
     }
 
 
   }
 
-  remove(show){
+  remove(show) {
     console.log("button werkt");
-    this.showService.removeShow(show,this.id);
-    console.log("any",show);
+    this.showService.removeShow(show, this.id);
+    console.log("any", show);
     let list: Array<Object> = this.Shows;
     list = list.filter(obj => obj !== show);
     this.Shows = list;
 
-    PNotify.success({
+    var notice = PNotify.success({
       title: 'Removed!',
-      text: 'You removed it succesfully!'
+      text: 'You removed it succesfully!',
+      modules: {
+        Buttons: {
+          closer: false,
+          sticker: false
+        }
+      }
+    });
+    notice.on('click', function () {
+      notice.close();
     });
 
   }
 
-  moreInfo(show){
-    this.router.navigate(['search-details/'+show.media_type+'/'+show.id])
+  moreInfo(show) {
+    console.log("show", show);
+    this.router.navigate(['search-details/' + show.mediaType + '/' + show.tmdbId + "/" + "true"])
     // routerLink="/search-details/{{serie.media_type}}/{{serie.id}}"
   }
 
+  postComment(show) {
+    console.log(this.commentTitle);
+    console.log(this.commentBody);
+    this.showService.postComment(show, this.commentTitle, this.commentBody).subscribe((val) => {
+      const params = this.activatedRoute.snapshot.params;
+      this.showService.getShows(params.id).subscribe((val) => {
+        this.Shows = val;
+      });
+
+    });
+
+  }
 }

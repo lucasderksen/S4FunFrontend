@@ -6,12 +6,15 @@
   <div class="p">{{details.overview}}</div>
   <br>
 
+  <!-- O(1) dit vergelijkt letterlijk 1 op 1 -->
   <p *ngIf="bool">
     <button type="btn btn-info" class="btn btn-outline-primary" (click)="isCollapsed = !isCollapsed"
             [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
       Seasons
     </button>
   </p>
+  
+  <!-- 0(n) for each  -->
   <div id="collapseExample" *ngFor="let season of details.seasons;" [ngbCollapse]="!isCollapsed">
     <div class="card">
       <div class="card-body">
@@ -24,6 +27,6 @@
   </div>
 
   <br>
-  <button class="btn btn-success" (click)="AddToWatchList()" style="width: 10vw">Add to watch list</button>
+  <button *ngIf="addedToWatchList" class="btn btn-success" (click)="AddToWatchList()" style="width: 10vw">Add to watch list</button>
 </div>
 

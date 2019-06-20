@@ -5,7 +5,50 @@
                     class="img-fluid img-thumbnail mx-auto d-block" alt="Responsive image"></div>
             <h3 class="">{{show.title}}</h3>
             <div class="p">{{show.body}}</div>
-            <h4 class="">Current EP:</h4>
+            <!-- <h4 class="">Current EP:</h4> -->
+            <br>
+            <p>
+                <button type="btn btn-info" class="btn btn-outline-primary" (click)="isCollapsed = !isCollapsed"
+                    [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+                    Comments
+                </button>
+            </p>
+
+
+            <div id="collapseExample"  [ngbCollapse]="!isCollapsed">
+
+
+                    <div class="container vertical-center">
+                        <div class="row">
+                            <div class="" style="width:200%">
+                                <div class="form-group">
+                                    <label class="form-control-placeholder" for="title">Title</label>
+                                    <input type="text" id="title" class="form-control" [(ngModel)]="commentTitle" name="title"
+                                        required>
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-placeholder" for="body">Body</label>
+                                    <input type="text" id="body" class="form-control" [(ngModel)]="commentBody" name="body"
+                                        required>
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-block btn-primary" type="submit" id="submit" value="Submit"
+                                        (click)="postComment(show)">Post Comment</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                <div class="card" *ngFor="let comment of show.comments;">
+                    <div class="card-body">
+                        <h6 class="">{{comment.title}}</h6>
+                        <div class="p">{{comment.body}}</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
 
@@ -16,16 +59,15 @@
 
 
         <div class="btn-group-vertical" role="group" aria-label="Basic example" style="height: 10%">
-            <a type="ngSubmit" class="btn btn-success btn-lg">
+            <!-- <a type="ngSubmit" class="btn btn-success btn-lg">
                 <span class="glyphicon glyphicon glyphicon-plus-sign"></span>Update &#43;
-            </a>
+            </a> -->
             <a type="ngSubmit tex" class="btn btn-info btn-lg" (click)="moreInfo(show)">
                 <span class="glyphicon glyphicon glyphicon-plus-sign"></span>More info !
             </a>
             <a type="ngSubmit tex" class="btn btn-danger btn-lg" (click)="remove(show)">
                 <span class="glyphicon glyphicon glyphicon-plus-sign"></span>Remove -
             </a>
-            
         </div>
 
     </div>

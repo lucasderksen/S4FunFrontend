@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { SearchService } from '../search/search.service';
 import { LoginService } from '../services/login-service';
 import { LoginComponent } from '../login/login.component';
-
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   providers: [LoginComponent],
@@ -13,34 +13,52 @@ import { LoginComponent } from '../login/login.component';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private router: Router, private searchService: SearchService, public loginService: LoginService, private loginComponent: LoginComponent) { }
+  constructor(private router: Router, private searchService: SearchService, public loginService: LoginService, private loginComponent: LoginComponent, private cookieService: CookieService) { }
 
   private name: any;
   private id: any;
-  loggedIn: boolean = false;
+  private loggedIn: boolean = false;
 
   ngOnInit() {
-    console.log("loggedIn", this.loggedIn);
-    this.loginService.name.subscribe((val) => {
-      this.name = val;
-      if (val) {
-        this.loggedIn = true;
-        console.log("name1",this.name)
-      } else if(this.loginService.CurrentName) {
-        this.loggedIn = true;
-        console.log("name2",this.name)
-      }
-      else {
-        this.loggedIn = false;
-        console.log("name3",this.name)
-      }
-      console.log("loggedIn", this.loggedIn);
+    console.log("NGONINIT");
 
+    if (this.cookieService.get('LoggedIn') == "true") {
+      this.changeLoginStatus();
+    }
+
+
+    this.loginService.loggedIn.subscribe((val) => {
+      console.log("broadcast value", val);
+      console.log("cookie value", this.cookieService.get('LoggedIn'))
+      if (val == true || this.cookieService.get('LoggedIn') == "true") {
+        this.changeLoginStatus();
+      }
     });
-    this.loginService.id.subscribe(((val) => {
-      this.id = val;
-    }));
+
+    this.loginService.name.subscribe((val) => { 
+      console.log(val);
+      this.name = val;
+    });
+
+
   }
+
+  changeLoginStatus() {
+    console.log(this.cookieService.get('LoggedIn'));
+    this.loggedIn = true;
+    this.name = this.cookieService.get('Username');
+    this.id = this.cookieService.get('UserId');
+    console.log("cookie value name", this.cookieService.get('Username'));
+    console.log("cookie value name", this.cookieService.get('UserId'));
+    console.log("cookie value name", this.cookieService.get('LoggedIn'));
+    if (this.cookieService.get('LoggedIn') == "false") {
+      this.name = "";
+      this.id = "";
+      this.loggedIn = false;
+      console.log("loggedin false");
+    }
+  }
+
 
   searchSubmit(searchTitle) {
 
@@ -51,13 +69,17 @@ export class NavbarComponent implements OnInit {
 
 
   logout() {
+    this.name = "";
+    this.id = "";
+    this.loggedIn = false;
+
     this.loginComponent.logout();
   }
 
-  serieRouter(){
-    this.router.navigate(['serie/'+this.id])
+  serieRouter() {
+    this.router.navigate(['serie/' + this.id])
   }
 
-  
+
 
 }
